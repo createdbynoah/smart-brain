@@ -1,0 +1,19 @@
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 1rem 1rem;
+}
+
+.logo-icon {
+  font-size: 2.5rem;
+  color: #faae2b;
+  width: auto;
+  margin-right: 1.5rem;
+}

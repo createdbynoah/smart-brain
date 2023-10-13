@@ -1,0 +1,11 @@
+.title {
+  font-size: 5rem;
+  font-weight: 500;
+  color: #00473e;
+  /* margin-top: auto;
+  margin-bottom: auto; */
+}
+
+.title span {
+  color: #ffa8ba;
+}

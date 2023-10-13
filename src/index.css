@@ -1,0 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Gabarito:wght@400;500;600;700;800;900&display=swap');
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Gabarito', sans-serif;
+  background: #f2f7f5;
+}
+
+button {
+  background-color: #faae2b;
+  color: #00473e;
+}
+
+button:hover {
+  cursor: pointer;
+  color: #f2f7f5;
+}
