@@ -1,0 +1,32 @@
+.image-container {
+  display: flex;
+  position: relative;
+}
+.image-container2 {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  margin-top: 3rem;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+  width: auto;
+  height: auto;
+  padding: 4.5rem;
+  background-color: #ffa8ba;
+  border-radius: 0 5rem;
+}
+
+.bounding-box {
+  position: absolute;
+  box-shadow: 0 0 0 3px #faae2b inset;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  cursor: pointer;
+  transition: box-shadow 0.2s ease-in-out;
+}
+
+.bounding-box:hover {
+  box-shadow: 0 0 0 4px #fa5246 inset;
+  transition: box-shadow 0.2s ease-in-out;
+}
