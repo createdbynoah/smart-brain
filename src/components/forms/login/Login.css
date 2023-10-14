@@ -1,0 +1,39 @@
+.login-container {
+  max-width: 500px;
+}
+
+.signin-group {
+  margin-top: 4rem;
+}
+
+.signin-group > input {
+  margin-bottom: 1.5rem;
+  width: 100%;
+}
+
+#signinBtn {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+.signin-group__links {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+#registerLink,
+#loginLink {
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+  text-decoration: none;
+  color: #ffa8ba;
+  font-weight: 600;
+}
+
+#registerLink:hover,
+#loginLink:hover {
+  color: #fa5246;
+  cursor: pointer;
+}

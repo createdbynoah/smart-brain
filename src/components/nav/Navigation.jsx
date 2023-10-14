@@ -1,15 +1,23 @@
 import './Navigation.css';
 import Logo from '../logo/Logo';
 
-const Navigation = () => {
+const Navigation = ({ route, onRouteChange }) => {
   return (
     <nav className="nav">
       <Logo />
-      <div className="nav-actions">
-        <button className="btn btn-orange btn-hover btn-small" type="button">
-          Sign Out
-        </button>
-      </div>
+      {route === 'login' ? (
+        <></>
+      ) : (
+        <div className="nav-actions">
+          <button
+            className="btn btn-orange btn-hover btn-small btn-outline"
+            type="button"
+            onClick={() => onRouteChange('login')}
+          >
+            Log Out
+          </button>
+        </div>
+      )}
     </nav>
   );
 };

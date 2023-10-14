@@ -6,12 +6,14 @@ import Navigation from './components/nav/Navigation';
 import SiteTitle from './components/title/SiteTitle';
 import ImageLinkForm from './components/forms/imageLink/ImageLinkForm';
 import FaceRecognition from './components/image/FaceRecognition';
+import Login from './components/forms/login/Login';
+import Register from './components/forms/register/Register';
 
 const App = () => {
   const [input, setInput] = useState('');
   const [imageUrl, setImageUrl] = useState('');
   const [boxes, setBoxes] = useState([]);
-  const [route, setRoute] = useState('signin');
+  const [route, setRoute] = useState('login');
   const [isSignedIn, setIsSignedIn] = useState(false);
 
   const onInputChange = (event) => {
@@ -56,16 +58,47 @@ const App = () => {
     console.log(width, height);
   };
 
+  const onRouteChange = (route) => {
+    if (route === 'login' || route === 'register') {
+      setIsSignedIn(false);
+    } else if (route === 'home') {
+      setIsSignedIn(true);
+    }
+    setRoute(route);
+  };
+
+  const onClickLogin = () => {
+    setRoute('home');
+  };
+
+  const onClickLogout = () => {
+    setRoute('login');
+  };
+
   return (
     <>
-      <Navigation />
+      {isSignedIn ? (
+        <Navigation route={route} onRouteChange={onRouteChange} />
+      ) : (
+        <></>
+      )}
+
       <main>
-        <SiteTitle />
-        <ImageLinkForm
-          onInputChange={onInputChange}
-          onButtonSubmit={onButtonSubmit}
-        />
-        <FaceRecognition imageUrl={imageUrl} boxes={boxes} />
+        <SiteTitle route={route} isSignedIn={isSignedIn} />
+
+        {route === 'login' ? (
+          <Login onRouteChange={onRouteChange} />
+        ) : route === 'register' ? (
+          <Register onRouteChange={onRouteChange} />
+        ) : (
+          <>
+            <ImageLinkForm
+              onInputChange={onInputChange}
+              onButtonSubmit={onButtonSubmit}
+            />
+            <FaceRecognition imageUrl={imageUrl} boxes={boxes} />
+          </>
+        )}
       </main>
     </>
   );

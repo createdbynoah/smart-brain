@@ -14,7 +14,7 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* justify-content: center; */
+  justify-content: center;
   height: calc(100vh - 100px);
   color: #475d5b;
 }
@@ -37,11 +37,14 @@ main {
 .btn-small {
   padding: 0.4rem 1.4rem;
   font-size: 0.9rem;
+}
+
+.btn-outline {
   background-color: transparent;
   border: 2px solid #faae2b;
 }
 
-.btn-small:hover {
+.btn-outline:hover {
   background-color: #faae2b;
   color: #f2f7f5;
   /* transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out; */
@@ -53,4 +56,9 @@ main {
 
 .btn-hover:hover {
   transform: perspective(1px) scale3d(1.044, 1.044, 1) translateZ(0) !important;
+}
+
+.btn-block {
+  display: block;
+  width: 100%;
 }
