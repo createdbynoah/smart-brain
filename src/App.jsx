@@ -15,6 +15,23 @@ const App = () => {
   const [boxes, setBoxes] = useState([]);
   const [route, setRoute] = useState('login');
   const [isSignedIn, setIsSignedIn] = useState(false);
+  const [user, setUser] = useState({
+    id: '',
+    name: '',
+    email: '',
+    entries: 0,
+    joined: '',
+  });
+
+  const loadUser = (data) => {
+    setUser({
+      id: data.id,
+      name: data.name,
+      email: data.email,
+      entries: data.entries,
+      joined: data.joined,
+    });
+  };
 
   const onInputChange = (event) => {
     console.log(event.target.value);
@@ -87,9 +104,9 @@ const App = () => {
         <SiteTitle route={route} isSignedIn={isSignedIn} />
 
         {route === 'login' ? (
-          <Login onRouteChange={onRouteChange} />
+          <Login onRouteChange={onRouteChange} loadUser={loadUser} />
         ) : route === 'register' ? (
-          <Register onRouteChange={onRouteChange} />
+          <Register onRouteChange={onRouteChange} loadUser={loadUser} />
         ) : (
           <>
             <ImageLinkForm
