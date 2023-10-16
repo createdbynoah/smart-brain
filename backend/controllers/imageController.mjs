@@ -1,5 +1,8 @@
 import dotenv from 'dotenv';
 dotenv.config();
+import asyncHandler from 'express-async-handler';
+import sequelize from '../models/index.js';
+const { Image, User } = sequelize;
 
 import { ClarifaiStub, grpc } from 'clarifai-nodejs-grpc';
 
@@ -10,7 +13,8 @@ metadata.set('authorization', 'Key ' + process.env.PAT);
 
 const getFaceRecognition = (req, res) => {
   console.log('getFaceRecognition');
-  const { imageUrl } = req.body;
+  const { imageUrl, user_id } = req.body;
+
   console.log('imageUrl', imageUrl);
   const request = {
     user_app_id: {
@@ -42,8 +46,34 @@ const getFaceRecognition = (req, res) => {
         id: region.id,
       };
     });
+    const faceCount = data.length;
+    Image.create({
+      image_url: imageUrl,
+      num_faces: faceCount,
+      user_id,
+    });
+
     res.json(clarifaiFaces);
   });
 };
 
-export { getFaceRecognition };
+const incrementUserImageCount = asyncHandler(async (req, res) => {
+  const { user_id } = req.body;
+  const user = await User.findByPk(user_id, {
+    include: [
+      {
+        model: Image,
+        as: 'images',
+      },
+    ],
+  });
+  if (!user) {
+    res.status(404);
+    throw new Error('User not found');
+  }
+  user.entries++;
+  await user.save();
+  res.json(user);
+});
+
+export { getFaceRecognition, incrementUserImageCount };

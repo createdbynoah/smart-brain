@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 import cors from 'cors';
 
-import routes from './routes.js';
+import routes from './routes.mjs';
 
 const app = express();
 const port = process.env.BACKEND_PORT || 3080;
