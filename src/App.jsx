@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './App.css';
 import axios from 'axios';
 
@@ -15,22 +15,27 @@ const App = () => {
   const [boxes, setBoxes] = useState([]);
   const [route, setRoute] = useState('login');
   const [isSignedIn, setIsSignedIn] = useState(false);
-  const [user, setUser] = useState({
-    id: '',
-    name: '',
-    email: '',
-    entries: 0,
-    joined: '',
-  });
+  const [user, setUser] = useState({});
+  const [numFaces, setNumFaces] = useState(0);
 
   const loadUser = (data) => {
     setUser({
-      id: data.id,
-      name: data.name,
-      email: data.email,
-      entries: data.entries,
-      joined: data.joined,
+      ...data,
     });
+  };
+
+  useEffect(() => {
+    if (user.id) {
+      calcNumFaces();
+    }
+  }, [user]);
+
+  const calcNumFaces = () => {
+    let numFaces = 0;
+    user.images.forEach((entry) => {
+      numFaces += entry.num_faces;
+    });
+    setNumFaces(numFaces);
   };
 
   const onInputChange = (event) => {
@@ -45,13 +50,28 @@ const App = () => {
     calculateFaceLocation(faces);
   };
 
+  const incrememtEntries = async () => {
+    try {
+      const response = await axios.put('http://localhost:3090/api/imagecount', {
+        user_id: user.id,
+      });
+      console.log('response', response);
+      const updatedUser = response.data;
+      setUser({ ...updatedUser });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const getFaces = async () => {
     try {
       const response = await axios.post('http://localhost:3090/api/image', {
         imageUrl: input,
+        user_id: user.id,
       });
       console.log('response', response);
       const faces = response.data;
+      await incrememtEntries();
       return faces;
     } catch (error) {
       console.log(error);
@@ -84,14 +104,6 @@ const App = () => {
     setRoute(route);
   };
 
-  const onClickLogin = () => {
-    setRoute('home');
-  };
-
-  const onClickLogout = () => {
-    setRoute('login');
-  };
-
   return (
     <>
       {isSignedIn ? (
@@ -101,7 +113,12 @@ const App = () => {
       )}
 
       <main>
-        <SiteTitle route={route} isSignedIn={isSignedIn} />
+        <SiteTitle
+          route={route}
+          isSignedIn={isSignedIn}
+          user={user}
+          numFaces={numFaces}
+        />
 
         {route === 'login' ? (
           <Login onRouteChange={onRouteChange} loadUser={loadUser} />

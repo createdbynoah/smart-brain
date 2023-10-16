@@ -1,6 +1,6 @@
 import './SiteTitle.css';
 
-const SiteTitle = ({ route, isSignedIn }) => {
+const SiteTitle = ({ route, isSignedIn, user, numFaces }) => {
   return (
     <>
       <h1 className="title animate__animated animate__fadeInDown">
@@ -9,9 +9,11 @@ const SiteTitle = ({ route, isSignedIn }) => {
       {isSignedIn ? (
         <>
           <div className="title__rank">
-            <h2>Welcome back, [user]</h2>
+            <h2>{`Welcome back, ${user.name}`}</h2>
             <p>
-              Your current rank is <span>#5</span>
+              Your current rank is <span>{`${user.entries}`}</span>
+              <br />
+              Your total faces detected is <span>{`${numFaces}`}</span>
             </p>
           </div>
           <div className="title__subtitle">
