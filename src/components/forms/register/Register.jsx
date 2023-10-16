@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import './Register.css';
+import axios from 'axios';
 
 const Register = ({ onRouteChange, loadUser }) => {
   const [name, setName] = useState('');
@@ -25,13 +26,26 @@ const Register = ({ onRouteChange, loadUser }) => {
 
   const onSubmitRegister = async (event) => {
     event.preventDefault();
-    if (validatePassword()) {
+    if (validatePassword() && validateInput()) {
       const user = await registerUser();
+      if (!user) {
+        console.log('Error registering user');
+        return;
+      }
       loadUser(user);
       onRouteChange('home');
-    } else {
+    } else if (!validateInput()) {
+      console.log('Please fill out all fields');
+    } else if (!validatePassword()) {
       console.log('Passwords do not match');
     }
+  };
+
+  const validateInput = () => {
+    if (name === '' || email === '' || password === '') {
+      return false;
+    }
+    return true;
   };
 
   const validatePassword = () => {

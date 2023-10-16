@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import './Login.css';
+import axios from 'axios';
 
 const Login = ({ onRouteChange, loadUser }) => {
   const [email, setEmail] = useState('');
@@ -13,10 +14,29 @@ const Login = ({ onRouteChange, loadUser }) => {
     setPassword(event.target.value);
   };
 
+  const validateInput = () => {
+    if (email === '' || password === '') {
+      return false;
+    }
+    return true;
+  };
+
   const onSubmitLogin = async (event) => {
-    event.preventDefault();
-    const user = await loginUser();
-    onRouteChange('home');
+    try {
+      event.preventDefault();
+      if (!validateInput()) {
+        console.log('Please enter an email and password');
+        return;
+      }
+      const isLoggedIn = await loginUser();
+      if (isLoggedIn) {
+        onRouteChange('home');
+      } else {
+        console.log('Invalid email or password');
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const loginUser = async () => {
@@ -26,11 +46,16 @@ const Login = ({ onRouteChange, loadUser }) => {
         password,
       });
       console.log('response', response);
-      const user = response.data;
-      loadUser(user);
-      return user;
+      if (response.data) {
+        const user = response.data;
+        loadUser(user);
+        return true;
+      } else {
+        return false;
+      }
     } catch (error) {
       console.log(error);
+      return false;
     }
   };
 
