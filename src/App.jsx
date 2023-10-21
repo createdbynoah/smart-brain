@@ -112,7 +112,7 @@ const App = () => {
         <></>
       )}
 
-      <main>
+      <main className={route === 'login' || route === 'register' ? 'cv' : ''}>
         <SiteTitle
           route={route}
           isSignedIn={isSignedIn}
@@ -130,7 +130,11 @@ const App = () => {
               onInputChange={onInputChange}
               onButtonSubmit={onButtonSubmit}
             />
-            <FaceRecognition imageUrl={imageUrl} boxes={boxes} />
+            {imageUrl ? (
+              <FaceRecognition imageUrl={imageUrl} boxes={boxes} />
+            ) : (
+              <></>
+            )}
           </>
         )}
       </main>
