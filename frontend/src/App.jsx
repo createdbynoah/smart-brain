@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import './App.css';
-import axios from 'axios';
+import api from '../api/api.js';
 
 import Navigation from './components/nav/Navigation';
 import SiteTitle from './components/title/SiteTitle';
@@ -32,6 +32,10 @@ const App = () => {
 
   const calcNumFaces = () => {
     let numFaces = 0;
+    if (!user.images) {
+      setNumFaces(numFaces);
+      return;
+    }
     user.images.forEach((entry) => {
       numFaces += entry.num_faces;
     });
@@ -52,7 +56,7 @@ const App = () => {
 
   const incrememtEntries = async () => {
     try {
-      const response = await axios.put('http://localhost:3090/api/imagecount', {
+      const response = await api.put('/imagecount', {
         user_id: user.id,
       });
       console.log('response', response);
@@ -65,7 +69,7 @@ const App = () => {
 
   const getFaces = async () => {
     try {
-      const response = await axios.post('http://localhost:3090/api/image', {
+      const response = await api.post('/image', {
         imageUrl: input,
         user_id: user.id,
       });

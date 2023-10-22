@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import './Login.css';
-import axios from 'axios';
+import api from '../../../../api/api.js';
 
 const Login = ({ onRouteChange, loadUser }) => {
   const [email, setEmail] = useState('');
@@ -41,7 +41,7 @@ const Login = ({ onRouteChange, loadUser }) => {
 
   const loginUser = async () => {
     try {
-      const response = await axios.post('http://localhost:3090/api/login', {
+      const response = await api.post('/login', {
         email,
         password,
       });
